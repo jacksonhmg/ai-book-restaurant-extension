@@ -1,3 +1,8 @@
+function getAriaLabel(selector) {
+    let element = document.querySelector(selector);
+    return element ? element.getAttribute('aria-label') : "Not found";
+}
+
 // Create a function to append a button to the target div
 function appendButtonToTarget() {
     const targetDiv = document.querySelector('div[jsname="c6xFrd"]');
@@ -22,16 +27,14 @@ function appendButtonToTarget() {
         btn.addEventListener("click", function(event) {
             // Your logic here
             // For instance, grab details from the form
-            console.log("title value is " + document.querySelector(".VfPpkd-fmcmS-wGMbrd ").value);
-            
-            let dateElement = document.querySelector('.s61lKd > .ky6s2b');
-            let dateText = dateElement ? dateElement.getAttribute('aria-label') : "Date not found";
+            let titleText = document.querySelector(".ayClmf .FAxxKc").textContent;
+            console.log("title value is " + titleText);
+                        
+            let dataElement = document.querySelector('span[data-key="startDate"]');
+            let dateText = dataElement ? dataElement.textContent : "Not found";
 
-            let startTimeElement = document.querySelector('.i04qJ > .ky6s2b:nth-child(1)');
-            let startTimeText = startTimeElement ? startTimeElement.getAttribute('aria-label') : "Start time not found";
-
-            let endTimeElement = document.querySelector('.i04qJ > .ky6s2b:nth-child(3)');
-            let endTimeText = endTimeElement ? endTimeElement.getAttribute('aria-label') : "End time not found";
+            let startTimeText = getAriaLabel('.i04qJ > .ky6s2b:nth-child(1)');
+            let endTimeText = getAriaLabel('.i04qJ > .ky6s2b:nth-child(3)');
 
             console.log(dateText, startTimeText, endTimeText);
 
