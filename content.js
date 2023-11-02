@@ -16,6 +16,38 @@ function appendButtonToTarget() {
         btn.style.cursor = "pointer"; // Hand cursor on hover
         btn.style.fontFamily = "'Roboto', sans-serif"; // Font similar to Google's branding
         btn.style.fontSize = "14px"; // Font size similar to the "Save" button
+        btn.classList.add("save-and-book-button"); // Add a class to the button so we can identify it later
+
+
+        btn.addEventListener("click", function(event) {
+            // Your logic here
+            // For instance, grab details from the form
+            console.log("title value is " + document.querySelector(".VfPpkd-fmcmS-wGMbrd ").value);
+            
+            let dateElement = document.querySelector('.s61lKd > .ky6s2b');
+            let dateText = dateElement ? dateElement.getAttribute('aria-label') : "Date not found";
+
+            let startTimeElement = document.querySelector('.i04qJ > .ky6s2b:nth-child(1)');
+            let startTimeText = startTimeElement ? startTimeElement.getAttribute('aria-label') : "Start time not found";
+
+            let endTimeElement = document.querySelector('.i04qJ > .ky6s2b:nth-child(3)');
+            let endTimeText = endTimeElement ? endTimeElement.getAttribute('aria-label') : "End time not found";
+
+            console.log(dateText, startTimeText, endTimeText);
+
+
+            // console.log("date value is " + dateText);
+            // console.log("start time value is " + startTimeText);
+            // console.log("end time value is " + endTimeText);
+
+    
+            // If you want to programmatically trigger the blue Save button click afterwards:
+            const saveButton = document.querySelector(".VfPpkd-LgbsSe.VfPpkd-LgbsSe-OWXEXe-k8QpJ.VfPpkd-LgbsSe-OWXEXe-dgl2Hf.nCP5yc.AjY5Oe.DuMIQc.LQeN7.pEVtpe"); // adjust the selector accordingly
+            if (saveButton) {
+                saveButton.click();
+            }
+        });
+
         
         // Append the button to the target div
         targetDiv.appendChild(btn);
@@ -50,3 +82,5 @@ const observer = new MutationObserver((mutations) => {
   
 // Start observing the target with the configured parameters
 observer.observe(document.body, { childList: true, subtree: true });
+
+
