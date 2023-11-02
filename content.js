@@ -4,13 +4,26 @@ function appendButtonToTarget() {
     if (targetDiv) {
         console.log('target found!');
         const btn = document.createElement("button");
-        btn.innerHTML = "My Button";
-        btn.style.backgroundColor = "red";
+        
+        // Set the button's innerHTML and styles
+        btn.innerHTML = "Save & Book";
+        btn.style.backgroundColor = "#d93025"; // Red color similar to Google's branding
+        btn.style.color = "#ffffff"; // White text color
+        btn.style.border = "none"; 
+        btn.style.borderRadius = "4px"; // Rounded corners
+        btn.style.padding = "8px 16px"; // Padding to make it similar in size to the "Save" button
+        btn.style.marginLeft = "8px"; // Space between "Save" and the new button
+        btn.style.cursor = "pointer"; // Hand cursor on hover
+        btn.style.fontFamily = "'Roboto', sans-serif"; // Font similar to Google's branding
+        btn.style.fontSize = "14px"; // Font size similar to the "Save" button
+        
+        // Append the button to the target div
         targetDiv.appendChild(btn);
-        return true; // Return true to indicate the target was found
+        return true;
     }
-    return false; // Return false if the target wasn't found
+    return false;
 }
+
 
 // Create a MutationObserver instance
 const observer = new MutationObserver((mutations) => {
