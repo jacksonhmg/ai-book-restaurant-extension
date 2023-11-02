@@ -1,0 +1,26 @@
+{
+  "name": "Book from cal",
+  "description": "Enter API key, open an Arxiv list page and voila!",
+  "version": "1.0",
+  "manifest_version": 3,
+  "icons": {
+    "48": "assets/48.png",
+    "72": "assets/72.png",
+    "96": "assets/96.png",
+    "144": "assets/144.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Ask YT vid"
+  },
+  "permissions": ["contextMenus", "tabs", "storage", "activeTab"]
+}
