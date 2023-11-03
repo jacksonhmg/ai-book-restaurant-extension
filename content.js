@@ -1,3 +1,5 @@
+// content.js
+
 function getAriaLabel(selector) {
     let element = document.querySelector(selector);
     return element ? element.getAttribute('aria-label') : "Not found";
@@ -59,13 +61,60 @@ function appendButtonToTarget() {
                 console.log("Parent div not found");
             }
 
+            function countChildrenOfElement(selector) {
+                const element = document.querySelector(selector);
+                return element ? element.children.length : 0;
+            }
+            
+            // Using the function
+            const numberOfChildren = countChildrenOfElement('div[class="Rzij1d"]');
+            console.log(`The element has ${numberOfChildren} children.`);
+            
+
 
             console.log(dateText, startTimeText, endTimeText);
+
+            const concatenatedString = `${dateText} ${startTimeText}`;
+            console.log("Concatenated string:", concatenatedString);
+
 
 
             // console.log("date value is " + dateText);
             // console.log("start time value is " + startTimeText);
             // console.log("end time value is " + endTimeText);
+
+
+            function makeRequest(phone_number, number_of_people, reservation_time) {
+                chrome.runtime.sendMessage({
+                    action: 'sendRequest',
+                    phone_number: phone_number,
+                    task: "Book a reservation at the restaurant",
+                    number_of_people: number_of_people,
+                    reservation_time: reservation_time
+                  }, response => {
+                    if (response.error) {
+                      console.error(response.error);
+                    } else {
+                      if (response.status === "success") {
+                        console.log("API call was successful. Call ID:", response.call_id);
+                      } else {
+                        console.log("API call was not successful. Status:", response.status);
+                      }
+                    }
+                  });
+                  
+              }
+              
+              // Example usage:
+              makeRequest(nestedDivText, numberOfChildren, concatenatedString);
+              
+
+
+
+
+
+
+
 
     
             // If you want to programmatically trigger the blue Save button click afterwards:

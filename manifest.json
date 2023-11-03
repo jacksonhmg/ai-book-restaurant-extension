@@ -22,5 +22,5 @@
     "default_popup": "index.html",
     "default_title": "Ask YT vid"
   },
-  "permissions": ["contextMenus", "tabs", "storage", "activeTab"]
+  "permissions": ["contextMenus", "tabs", "storage", "activeTab", "webRequest", "https://api.bland.ai/*"]
 }
