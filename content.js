@@ -27,14 +27,38 @@ function appendButtonToTarget() {
         btn.addEventListener("click", function(event) {
             // Your logic here
             // For instance, grab details from the form
-            let titleText = document.querySelector(".ayClmf .FAxxKc").textContent;
-            console.log("title value is " + titleText);
+            // let events = document.querySelectorAll(".ayClmf .FAxxKc");
+            // let latestEventText;
+
+            // if (events && events.length) {
+            //     latestEventText = events[events.length - 1].textContent.trim();
+            //     console.log("Latest event text:", latestEventText);
+            // } else {
+            //     console.log("No events found");
+            // }
+
                         
             let dataElement = document.querySelector('span[data-key="startDate"]');
             let dateText = dataElement ? dataElement.textContent : "Not found";
 
             let startTimeText = getAriaLabel('.i04qJ > .ky6s2b:nth-child(1)');
             let endTimeText = getAriaLabel('.i04qJ > .ky6s2b:nth-child(3)');
+
+            let parentDiv = document.querySelector('div[jsname="yrriRe"]');
+            let nestedDivText;
+
+            if (parentDiv) {
+                let nestedDiv = parentDiv.querySelector('div');
+                if (nestedDiv) {
+                    nestedDivText = nestedDiv.textContent.trim();
+                    console.log("Text inside the nested div:", nestedDivText);
+                } else {
+                    console.log("Nested div not found");
+                }
+            } else {
+                console.log("Parent div not found");
+            }
+
 
             console.log(dateText, startTimeText, endTimeText);
 
