@@ -2,7 +2,7 @@
 
 ## How to Set Up
 
-### Step 3
+### Step 1
 Download ZIP of this extension. (Click the big green "<> Code" button and click "Download ZIP")
 
 ### Step 2
