@@ -110,7 +110,7 @@ function appendButtonToTarget() {
 
 
             // Replace 'YOUR_API_KEY' with your actual API key
-            const api_key = 'AIzaSyAPvPGml61_VT1BHfKPk34-dWuq_rrbSFM';
+            const api_key = '';
 
             // Step 1: Find Place from Text Request
             const find_place_url = corsProxy + "https://maps.googleapis.com/maps/api/place/findplacefromtext/json";
