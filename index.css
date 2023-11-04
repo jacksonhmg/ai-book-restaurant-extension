@@ -5,8 +5,3 @@ body {
 #key_entered {
     display: none;
 }
-
-#key_entered input {
-    width: 100%;
-    margin-bottom: 10px;
-}

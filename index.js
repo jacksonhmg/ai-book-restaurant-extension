@@ -1,31 +1,34 @@
+// index.js
+
+
 const checkForKey = () => {
-    return new Promise((resolve, reject) => {
-      chrome.storage.local.get(['openai-key'], (result) => {
-        resolve(result['openai-key']);
-      });
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get(['api-key'], (result) => {
+      resolve(result['api-key']);
     });
-  };
+  });
+};
 
 const encode = (input) => {
-    return btoa(input);
-  };
+  return btoa(input);
+};
 
 const saveKey = () => {
-    const input = document.getElementById('key_input');
-  
-    if (input) {
-      const { value } = input;
-  
-      // Encode String
-      const encodedValue = encode(value);
-  
-      // Save to google storage
-      chrome.storage.local.set({ 'openai-key': encodedValue }, () => {
-        document.getElementById('key_needed').style.display = 'none';
-        document.getElementById('key_entered').style.display = 'block';
-      });
-    }
-  };
+  const input = document.getElementById('key_input');
+
+  if (input) {
+    const { value } = input;
+
+    // Encode String
+    const encodedValue = encode(value);
+
+    // Save to google storage
+    chrome.storage.local.set({ 'api-key': encodedValue }, () => {
+      document.getElementById('key_needed').style.display = 'none';
+      document.getElementById('key_entered').style.display = 'block';
+    });
+  }
+};
 
 const changeKey = () => {
 document.getElementById('key_needed').style.display = 'block';
@@ -38,8 +41,8 @@ document
 .addEventListener('click', changeKey);
 
 checkForKey().then((response) => {
-    if (response) {
-      document.getElementById('key_needed').style.display = 'none';
-      document.getElementById('key_entered').style.display = 'block';
-    }
-  });
+  if (response) {
+    document.getElementById('key_needed').style.display = 'none';
+    document.getElementById('key_entered').style.display = 'block';
+  }
+});
