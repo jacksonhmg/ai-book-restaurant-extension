@@ -9,7 +9,14 @@ function getAriaLabel(selector) {
 function appendButtonToTarget() {
     const targetDiv = document.querySelector('div[jsname="c6xFrd"]');
     if (targetDiv) {
-        console.log('target found!');
+        //console.log('target found!');
+
+        // const existingButton = targetDiv.querySelector('.save-and-book-button');
+        // if (existingButton) {
+        //     //console.log('Button already exists. No need to add another one.');
+        //     return false;
+        // }
+
         const btn = document.createElement("button");
         
         // Set the button's innerHTML and styles
@@ -26,7 +33,7 @@ function appendButtonToTarget() {
         btn.classList.add("save-and-book-button"); // Add a class to the button so we can identify it later
 
 
-        btn.addEventListener("click", function(event) {
+        btn.addEventListener("click", async function(event) {
             // Your logic here
             // For instance, grab details from the form
             // let events = document.querySelectorAll(".ayClmf .FAxxKc");
@@ -46,20 +53,20 @@ function appendButtonToTarget() {
             let startTimeText = getAriaLabel('.i04qJ > .ky6s2b:nth-child(1)');
             let endTimeText = getAriaLabel('.i04qJ > .ky6s2b:nth-child(3)');
 
-            let parentDiv = document.querySelector('div[jsname="yrriRe"]');
-            let nestedDivText;
+            // let parentDiv = document.querySelector('div[jsname="yrriRe"]');
+            // let nestedDivText;
 
-            if (parentDiv) {
-                let nestedDiv = parentDiv.querySelector('div');
-                if (nestedDiv) {
-                    nestedDivText = nestedDiv.textContent.trim();
-                    console.log("Text inside the nested div:", nestedDivText);
-                } else {
-                    console.log("Nested div not found");
-                }
-            } else {
-                console.log("Parent div not found");
-            }
+            // if (parentDiv) {
+            //     let nestedDiv = parentDiv.querySelector('div');
+            //     if (nestedDiv) {
+            //         nestedDivText = nestedDiv.textContent.trim();
+            //         //console.log("Text inside the nested div:", nestedDivText);
+            //     } else {
+            //         //console.log("Nested div not found");
+            //     }
+            // } else {
+            //     //console.log("Parent div not found");
+            // }
 
             function countChildrenOfElement(selector) {
                 const element = document.querySelector(selector);
@@ -68,14 +75,14 @@ function appendButtonToTarget() {
             
             // Using the function
             const numberOfChildren = countChildrenOfElement('div[class="Rzij1d"]');
-            console.log(`The element has ${numberOfChildren} children.`);
+            //console.log(`The element has ${numberOfChildren} children.`);
             
 
 
-            console.log(dateText, startTimeText, endTimeText);
+            //console.log(dateText, startTimeText, endTimeText);
 
             const concatenatedString = `${dateText} ${startTimeText}`;
-            console.log("Concatenated string:", concatenatedString);
+            //console.log("Concatenated string:", concatenatedString);
 
 
 
@@ -84,31 +91,120 @@ function appendButtonToTarget() {
             // console.log("end time value is " + endTimeText);
 
 
-            function makeRequest(phone_number, number_of_people, reservation_time) {
-                chrome.runtime.sendMessage({
-                    action: 'sendRequest',
-                    phone_number: phone_number,
-                    task: "Book a reservation at the restaurant",
-                    number_of_people: number_of_people,
-                    reservation_time: reservation_time
-                  }, response => {
-                    if (response.error) {
-                      console.error(response.error);
-                    } else {
-                      if (response.status === "success") {
-                        console.log("API call was successful. Call ID:", response.call_id);
-                      } else {
-                        console.log("API call was not successful. Status:", response.status);
-                      }
+            // toUqff DbpAnb mARxl AL18ce Xxy0Rd HRaT6d
+            let topLevelDiv = document.querySelector('.toUqff.DbpAnb.mARxl.AL18ce.Xxy0Rd.HRaT6d');
+
+            let lowestSpan = topLevelDiv.querySelector('span.QReV7');
+
+            let textContent = lowestSpan.textContent.trim();
+            let firstName = textContent.split(' ')[0];
+
+            console.log(firstName);
+
+
+
+            let location = document.querySelector('input[placeholder="Add location"]').value;
+
+
+            const corsProxy = "https://cors-anywhere.herokuapp.com/";
+
+
+            // Replace 'YOUR_API_KEY' with your actual API key
+            const api_key = '';
+
+            // Step 1: Find Place from Text Request
+            const find_place_url = corsProxy + "https://maps.googleapis.com/maps/api/place/findplacefromtext/json";
+            const find_place_params = new URLSearchParams({
+            input: location,
+            inputtype: 'textquery',
+            fields: 'place_id',
+            key: api_key
+            });
+
+            const details_url = corsProxy + "https://maps.googleapis.com/maps/api/place/details/json";
+            
+
+
+            
+
+
+
+            try {
+                let place_details = await fetch(`${find_place_url}?${find_place_params}`, {
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'X-Requested-With': 'XMLHttpRequest'
                     }
-                  });
-                  
-              }
+                  }).then(response => response.json());
               
-              // Example usage:
-              makeRequest(nestedDivText, numberOfChildren, concatenatedString);
+                  let phoneNumber = ""; // Moved this line outside of the fetch block
+                  if (place_details.status === "OK" && place_details.candidates.length > 0) {
+                    const place_id = place_details.candidates[0].place_id;
+                    const details_params = new URLSearchParams({
+                        fields: 'formatted_phone_number',
+                        place_id: place_id,
+                        key: api_key
+                    });
+              
+                    // Await the second fetch call as well
+                    let details = await fetch(`${details_url}?${details_params}`, {
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                      }
+                    }).then(response => response.json());
+              
+                    if (details.status === "OK") {
+                      console.log("Place Details Response JSON:");
+                      console.log(details);
+                      phoneNumber = details.result.formatted_phone_number;
+                      console.log(`Phone number: ${phoneNumber}`);
+                    } else {
+                      console.error(`Error getting place details: ${details.error_message}`);
+                    }
+                  } else {
+                    console.error("No place_id found in the response.");
+                  }
+              
+                  // Check if phoneNumber is set before making the request
+                  if (!phoneNumber) {
+                    phoneNumber = "No phone number found";
+                  }
+              
+                  console.log(phoneNumber);
+                  console.log(`Making a phone call for ${firstName} to ${phoneNumber} for ${numberOfChildren} people at ${concatenatedString}`);
               
 
+
+
+                  function makeRequest(phone_number, number_of_people, reservation_time, firstName) {
+                    chrome.runtime.sendMessage({
+                        action: 'sendRequest',
+                        phone_number: phone_number,
+                        task: "Book a reservation at the restaurant for the user. You will be connected to the restaurant.",
+                        number_of_people: number_of_people,
+                        reservation_time: reservation_time,
+                        reserved_for: firstName
+                    }, response => {
+                        if (response.error) {
+                        console.error(response.error);
+                        } else {
+                        if (response.status === "success") {
+                            console.log("API call was successful. Call ID:", response.call_id);
+                        } else {
+                            console.log("API call was not successful. Status:", response.status);
+                        }
+                        }
+                    });
+                    
+                }  
+                
+                // Example usage:
+                await makeRequest(phoneNumber, numberOfChildren, concatenatedString, firstName);
+              
+            } catch (error) {
+                console.error('Error in the event listener:', error);
+            }
 
 
 

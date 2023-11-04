@@ -29,7 +29,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 reduce_latency: true,
                 request_data: {
                     number_of_people: message.number_of_people || "",
-                    reservation_time: message.reservation_time || ""
+                    reservation_time: message.reservation_time || "",
+                    reserved_for: message.reserved_for || ""
                 },
                 wait_for_greeting: true,
             };
