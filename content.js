@@ -8,7 +8,8 @@ function getAriaLabel(selector) {
 // Create a function to append a button to the target div
 function appendButtonToTarget() {
     const targetDiv = document.querySelector('div[jsname="c6xFrd"]');
-    if (targetDiv) {
+    const prevButton = document.querySelector('.save-and-book-button');
+    if (targetDiv && !prevButton) {
         //console.log('target found!');
 
         // const existingButton = targetDiv.querySelector('.save-and-book-button');
